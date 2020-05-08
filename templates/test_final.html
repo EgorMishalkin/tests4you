@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>result</title>
+    <link rel="shortcut icon" href="{{  url_for('static', filename='icon.ico')  }}">
+</head>
+<body>
+<style>
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+h2 {text-align: center;}
+h3 {text-align: center;}
+p {text-align: center;}
+a {text-align: right;}
+</style>
+<h2>
+    Ваш результат
+</h2>
+<form method="post">
+    <h3>
+        {{RESULT}}
+    </h3>
+    <img src="{{ROAD}}" alt="Card image cap" height="500" width="400" style="width:50%;">
+    <p>
+      <a class="dropdown-item" href="/">В главное меню</a>
+    </p>
+</form>
+</body>
+</html>
