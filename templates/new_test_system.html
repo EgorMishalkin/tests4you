@@ -1,0 +1,68 @@
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+</head>
+<style>
+h2 {margin-left: 45%;}
+button {
+    margin-left: 4%;
+    background-color:42aaff;
+    } 
+table {
+    margin-left: 50%;
+    } 
+</style>
+<body>
+<h2>
+    {{QUESTION}}
+</h2>
+<form name="myForm" action="" method="post" onsubmit="">
+  <table>
+   <tr>
+    <td><input type="radio" name="sentiment" value=1>{{ANSWER_1}}<br>
+   </td>
+   </tr>
+   <tr>
+   <td><input type="radio" name="sentiment" value=2>{{ANSWER_2}}<br>
+   </td>
+   </tr>
+   <tr>
+   <td><input type="radio" name="sentiment" value=3>{{ANSWER_3}}<br></td>
+   </tr>
+   <tr>
+   <td><input type="radio" name="sentiment" value=4>{{ANSWER_4}}<br></td>
+   </tr>
+  <tr><td><br></td></tr>
+  <tr>
+  <td><button class='get_input'>Подтвердить</button></td>
+  </tr>
+  <div class='user_warning_message'></div>
+  </table>
+</form>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+  $(document).ready(function() {
+   $('.get_input').click(function() {
+   if ($('input[name=sentiment]:checked').length === 0) {
+    $('.user_warning_message').html('<div style="width:100px;height:100px;background-color:red;margin-left: 45%;">Вы не выбрали вариант ответа</div>');
+    }
+  });
+  $("input[name='sentiment']").change(function(){
+    $('.user_warning_message').html('');
+  });
+});
+ </script>
+ <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+</html>
