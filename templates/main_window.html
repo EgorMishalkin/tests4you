@@ -63,8 +63,9 @@
                 <div class="card-body">
                     <h5 class="card-title">{{item["name"]}}</h5>
                     <p class="card-text">{{item["short_description"]}}</p>
-                    <form action="/tests/1">
-                        <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Пройти тест &raquo;</button>
+                    <form method="post">
+                        <button class="btn btn-outline-dark my-2 my-sm-0" name="button_choice_test"
+                                value="{{item['id']}}" type="submit">Поподробнее &raquo;</button>
                     </form>
                 </div>
             </div>
