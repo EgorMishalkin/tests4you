@@ -32,12 +32,17 @@ def description_test(test_id):
             else:
                 pass
     elif request.method == 'POST':
-        return redirect('/decision' + '/' + test_id)
+        # создание запроса
+        dec = '/decision' + '/' + test_id
+        # ссылка на решение
+        return redirect(dec)
 
 
-@app.route('/decision/<name_test>')
-def decision_test(decision):
-    return '2'
+@app.route('/decision/<numb>')
+def decision_test(numb):
+    # numb - номер теста
+    return render_template('test_system.html', QUESTION=numb, ANSWER_1=numb,
+                           ANSWER_2=numb, ANSWER_3=numb, ANSWER_4=numb)
 
 
 if __name__ == '__main__':
