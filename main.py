@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect
+from flask import Flask, request, render_template, redirect, url_for, g
 from data import db_session
 from data import tests
 
@@ -22,6 +22,7 @@ def start():
     if request.method == 'GET':
         return render_template("main_window.html", test=test)
     elif request.method == 'POST':
+        #return redirect(url_for('booking', date=date))
         return redirect('/' + request.form['button_choice_test'])
 
 
@@ -56,7 +57,6 @@ def decision_test(test_id):
                                ANSWER_4=test1.questions['question_' + str(begin)]['answer_4'][0]
                                )
     elif request.method == 'POST':
-        # print('ddddddddddddddddddddddddddddddddd', request.form['option'])
         if 'option' in request.form:
             for item in test:
                 if str(item.id) == test_id:
@@ -107,7 +107,26 @@ def add_test():
                                SHORT_DESCRIPTION_PARAGRAPH='Введите краткое описание теста',
                                LONG_DESCRIPTION_PARAGRAPH='Введите полное описаниетеста')
     elif request.method == 'POST':
-        return request.form['name'], request.form['short_description']
+        print(request.form['name'], request.form['short_description'], request.form['long_description'],
+              request.form['inputState_0'], request.form['category'], request.form['inputState_2'])
+        num_ques = request.form.get('inputState_0')
+        num_fin = request.form.get('inputState_2')
+        return redirect(url_for('add_test_1', num_ques=num_ques, num_fin=num_fin))
+
+
+@app.route('/add_test_1', methods=['POST', 'GET'])
+def add_test_1():
+    num_ques = request.args.get('num_ques', None)
+    num_fin = request.args.get('num_fin', None)
+    if request.method == 'GET':
+        return render_template('add_test_1_window.html', NUM_QUES=int(num_ques), NUM_FIN=int(num_fin))
+    elif request.method == 'POST':
+        for i in range(1, int(num_ques) + 1):
+            print(request.form['question_' + str(i)])
+            print(request.form['reply_1_' + str(i)], request.form['inputState_1_' + str(i)])
+            print(request.form['reply_2_' + str(i)], request.form['inputState_2_' + str(i)])
+            print(request.form['reply_3_' + str(i)], request.form['inputState_3_' + str(i)])
+            print(request.form['reply_4_' + str(i)], request.form['inputState_4_' + str(i)])
 
 
 @app.route('/boys')

@@ -7,42 +7,17 @@
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
           crossorigin="anonymous">
-<style>
-h1 {text-align: center;}
-.wrapper {
-    text-align: center;
-}
-img {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-.button {
-    position: absolute;
-}
-.buttton {
-  background-color: #42aaff;
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-}
-</style>    
 </head>
 <body>
-<h1>
-    {{DESCRIPTION}}
-</h1>
-<img src="{{ROAD}}" alt="Card image cap" height="250" width="200" style="width:50%;">
-<form method="post">
-    <div class="wrapper">
-    	<button class="buttton">Поехали &raquo;</button>
-	</div>
+{{QUESTION}}
+<form name="myForm" action="" method="post" onsubmit="">
+    <p>
+        <input type="radio" name="option" id="option1" value="1">{{ANSWER_1}}<br>
+        <input type="radio" name="option" id="option2" value="2">{{ANSWER_2}}<br>
+        <input type="radio" name="option" id="option3" value="3">{{ANSWER_3}}<br>
+        <input type="radio" name="option" id="option4" value="4">{{ANSWER_4}}<br>
+    </p>
+    <p><input type=submit value=Выбрать></p>
 </form>
 </body>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
