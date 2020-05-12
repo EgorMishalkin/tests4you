@@ -49,7 +49,6 @@ def decision_test(test_id):
             if str(item.id) == test_id:
                 test1 = item
                 cycle = item.questions['num_question']
-        print(test1.questions)
         return render_template('decision_test_window.html',
                                QUESTION=test1.questions['question_' + str(begin)]['question'],
                                ANSWER_1=test1.questions['question_' + str(begin)]['answer_1'][0],
@@ -58,13 +57,36 @@ def decision_test(test_id):
                                ANSWER_4=test1.questions['question_' + str(begin)]['answer_4'][0]
                                )
     elif request.method == 'POST':
-        for item in test:
-            if str(item.id) == test_id:
-                test1 = item
-                result += int(test1.questions['question_' + str(begin)]['answer_' + str(request.form['option'])][1])
-                break
-        if begin != int(cycle):
-            begin += 1
+        # print('ddddddddddddddddddddddddddddddddd', request.form['option'])
+        if 'option' in request.form:
+            for item in test:
+                if str(item.id) == test_id:
+                    test1 = item
+                    result += int(test1.questions['question_' + str(begin)]['answer_' + str(request.form['option'])][1])
+                    break
+            if begin != int(cycle):
+                begin += 1
+                for item in test:
+                    if str(item.id) == test_id:
+                        test1 = item
+                return render_template('decision_test_window.html',
+                                       QUESTION=test1.questions['question_' + str(begin)]['question'],
+                                       ANSWER_1=test1.questions['question_' + str(begin)]['answer_1'][0],
+                                       ANSWER_2=test1.questions['question_' + str(begin)]['answer_2'][0],
+                                       ANSWER_3=test1.questions['question_' + str(begin)]['answer_3'][0],
+                                       ANSWER_4=test1.questions['question_' + str(begin)]['answer_4'][0]
+                                       )
+            elif begin == int(cycle):
+                for item in test:
+                    if str(item.id) == test_id:
+                        test1 = item
+                for i in range(1, len(test1.final_grade) + 1):
+                    if result <= test1.final_grade[str(i)][0]:
+                        return render_template('final_grade_test_window.html', CONCLUSION=test1.final_grade[str(i)][1],
+                                               PATH=test1.final_grade[str(i)][2])
+                    else:
+                        pass
+        else:
             for item in test:
                 if str(item.id) == test_id:
                     test1 = item
@@ -75,16 +97,6 @@ def decision_test(test_id):
                                    ANSWER_3=test1.questions['question_' + str(begin)]['answer_3'][0],
                                    ANSWER_4=test1.questions['question_' + str(begin)]['answer_4'][0]
                                    )
-        elif begin == int(cycle):
-            for item in test:
-                if str(item.id) == test_id:
-                    test1 = item
-            for i in range(1, len(test1.final_grade) + 1):
-                if result <= test1.final_grade[str(i)][0]:
-                    return render_template('final_grade_test_window.html', CONCLUSION=test1.final_grade[str(i)][1],
-                                           PATH=test1.final_grade[str(i)][2])
-                else:
-                    pass
 
 
 @app.route('/add_test', methods=['POST', 'GET'])
