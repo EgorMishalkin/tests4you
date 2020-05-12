@@ -4,7 +4,8 @@ from data import tests
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'test4u_secret_key'
-
+begin = 1
+result = 0
 
 def main():
     global test
@@ -35,17 +36,75 @@ def description_test(test_id):
         return redirect('/decision' + '/' + test_id)
 
 
-@app.route('/decision/<numb>', methods=['POST', 'GET'])
-def decision_test(numb):
-    # numb - номер теста
+@app.route('/decision/<test_id>', methods=['POST', 'GET'])
+def decision_test(test_id):
+    global cycle
+    global begin
+    global result
+    test1 = ''
     if request.method == 'GET':
-        return render_template('test_system.html', QUESTION=numb, ANSWER_1=numb,
-                               ANSWER_2=numb, ANSWER_3=numb, ANSWER_4=numb)
+        for item in test:
+            if str(item.id) == test_id:
+                test1 = item
+                cycle = item.questions['num_question']
+        return render_template('decision_test_window.html',
+                               QUESTION=test1.questions['question_' + str(begin)]['question'],
+                               ANSWER_1=test1.questions['question_' + str(begin)]['answer_1'][0],
+                               ANSWER_2=test1.questions['question_' + str(begin)]['answer_2'][0],
+                               ANSWER_3=test1.questions['question_' + str(begin)]['answer_3'][0],
+                               ANSWER_4=test1.questions['question_' + str(begin)]['answer_4'][0]
+                               )
     elif request.method == 'POST':
-        option = request.form['options']
-        # return option
-        return render_template('test_system.html', QUESTION=option, ANSWER_1=option,
-                               ANSWER_2=option, ANSWER_3=option, ANSWER_4=option)
+        # print('ddddddddddddddddddddddddddddddddd', request.form['option'])
+        if 'option' in request.form:
+            for item in test:
+                if str(item.id) == test_id:
+                    test1 = item
+                    result += int(test1.questions['question_' + str(begin)]['answer_' + str(request.form['option'])][1])
+                    break
+            if begin != int(cycle):
+                begin += 1
+                for item in test:
+                    if str(item.id) == test_id:
+                        test1 = item
+                return render_template('decision_test_window.html',
+                                       QUESTION=test1.questions['question_' + str(begin)]['question'],
+                                       ANSWER_1=test1.questions['question_' + str(begin)]['answer_1'][0],
+                                       ANSWER_2=test1.questions['question_' + str(begin)]['answer_2'][0],
+                                       ANSWER_3=test1.questions['question_' + str(begin)]['answer_3'][0],
+                                       ANSWER_4=test1.questions['question_' + str(begin)]['answer_4'][0]
+                                       )
+            elif begin == int(cycle):
+                for item in test:
+                    if str(item.id) == test_id:
+                        test1 = item
+                for i in range(1, len(test1.final_grade) + 1):
+                    if result <= test1.final_grade[str(i)][0]:
+                        return render_template('final_grade_test_window.html', CONCLUSION=test1.final_grade[str(i)][1],
+                                               PATH=test1.final_grade[str(i)][2])
+                    else:
+                        pass
+        else:
+            for item in test:
+                if str(item.id) == test_id:
+                    test1 = item
+            return render_template('decision_test_window.html',
+                                   QUESTION=test1.questions['question_' + str(begin)]['question'],
+                                   ANSWER_1=test1.questions['question_' + str(begin)]['answer_1'][0],
+                                   ANSWER_2=test1.questions['question_' + str(begin)]['answer_2'][0],
+                                   ANSWER_3=test1.questions['question_' + str(begin)]['answer_3'][0],
+                                   ANSWER_4=test1.questions['question_' + str(begin)]['answer_4'][0]
+                                   )
+
+
+@app.route('/add_test', methods=['POST', 'GET'])
+def add_test():
+    if request.method == 'GET':
+        return render_template('add_test_window.html', NAME_PARAGRAPH='Введите название теста',
+                               SHORT_DESCRIPTION_PARAGRAPH='Введите краткое описание теста',
+                               LONG_DESCRIPTION_PARAGRAPH='Введите полное описаниетеста')
+    elif request.method == 'POST':
+        return request.form['name'], request.form['short_description']
 
 
 @app.route('/boys')
