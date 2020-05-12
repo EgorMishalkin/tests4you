@@ -7,6 +7,7 @@ app.config['SECRET_KEY'] = 'test4u_secret_key'
 begin = 1
 result = 0
 
+
 def main():
     global test
     db_session.global_init("db/tests.sqlite")
@@ -79,6 +80,8 @@ def decision_test(test_id):
                     if str(item.id) == test_id:
                         test1 = item
                 for i in range(1, len(test1.final_grade) + 1):
+                    begin = 1
+                    result = 0
                     if result <= test1.final_grade[str(i)][0]:
                         return render_template('final_grade_test_window.html', CONCLUSION=test1.final_grade[str(i)][1],
                                                PATH=test1.final_grade[str(i)][2])
