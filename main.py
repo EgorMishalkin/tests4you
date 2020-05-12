@@ -11,9 +11,10 @@ result = 0
 def main():
     global test
     db_session.global_init("db/tests.sqlite")
+
     session = db_session.create_session()
     test = session.query(tests.Test).all()
-    # test = request.form.get(session.query(tests.Test).all(), 'test')
+
     app.run()
 
 
@@ -48,6 +49,7 @@ def decision_test(test_id):
             if str(item.id) == test_id:
                 test1 = item
                 cycle = item.questions['num_question']
+        print(test1.questions)
         return render_template('decision_test_window.html',
                                QUESTION=test1.questions['question_' + str(begin)]['question'],
                                ANSWER_1=test1.questions['question_' + str(begin)]['answer_1'][0],
@@ -83,6 +85,16 @@ def decision_test(test_id):
                                            PATH=test1.final_grade[str(i)][2])
                 else:
                     pass
+
+
+@app.route('/add_test', methods=['POST', 'GET'])
+def add_test():
+    if request.method == 'GET':
+        return render_template('add_test_window.html', NAME_PARAGRAPH='Введите название теста',
+                               SHORT_DESCRIPTION_PARAGRAPH='Введите краткое описание теста',
+                               LONG_DESCRIPTION_PARAGRAPH='Введите полное описаниетеста')
+    elif request.method == 'POST':
+        return request.form['name'], request.form['short_description']
 
 
 if __name__ == '__main__':
