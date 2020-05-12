@@ -27,6 +27,26 @@ def start():
         return redirect('/' + request.form['button_choice_test'])
 
 
+@app.route('/boys')
+def boys():
+    return render_template('boys.html')
+
+
+@app.route('/girls')
+def girls():
+    return render_template('girls.html')
+
+
+@app.route('/about')
+def about():
+    return render_template('about.html')    
+  
+   
+@app.route('/easter')
+def easter():
+    return render_template('easter.html')
+
+
 @app.route('/<test_id>', methods=['POST', 'GET'])
 def description_test(test_id):
     if request.method == 'GET':
