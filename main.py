@@ -127,6 +127,9 @@ def add_test_1():
             print(request.form['reply_2_' + str(i)], request.form['inputState_2_' + str(i)])
             print(request.form['reply_3_' + str(i)], request.form['inputState_3_' + str(i)])
             print(request.form['reply_4_' + str(i)], request.form['inputState_4_' + str(i)])
+        for i in range(1, int(num_fin) + 1):
+            print(request.form['final_' + str(i)], request.form['final_state_' + str(i)])
+
 
 
 @app.route('/boys')
