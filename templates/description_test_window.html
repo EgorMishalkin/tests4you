@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+    .btn {
+      border: none;
+      background-color: inherit;
+      padding: 14px 28px;
+      font-size: 16px;
+      cursor: pointer;
+      display: inline-block;
+    }
+
+
+    /* Gray */
+    .default {
+      color: black;
+    }
+
+    .default:hover {
+      background: #e7e7e7;
+    }
+    </style>
+</head>
+<body>
+<div class="">
+    <div class="card col-md-4" style="width: 18rem;">
+        <img class="card-img-top" src={{item["cover"]}} alt="Card image cap">
+        <div class="card-body">
+            <h2 class="card-title">{{item["name"]}}</h2>
+            <p class="card-text">{{item["long_description"]}}</p>
+            <form method="post">
+                <button class="btn default" type="submit">Пройти тест</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
