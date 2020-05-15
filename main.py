@@ -83,6 +83,7 @@ def decision_test(test_id):
                     if result <= test1.final_grade[str(i)][0]:
                         CONCLUSION = test1.final_grade[str(i)][1]
                         PATH = test1.final_grade[str(i)][2]
+                        result = 0
                         return redirect(url_for('final_result', CONCLUSION=CONCLUSION, PATH=PATH))
                     else:
                         pass
@@ -213,14 +214,22 @@ def add_test_in_sql(name, short_description, long_description, category, add_dat
     print('Тест успешно добавлен')
 
 
-@app.route('/boys')
+@app.route('/boys', methods=['POST', 'GET'])
 def boys():
-    return render_template('boys.html', test=test2)
+    if request.method == 'GET':
+        return render_template('boys.html', test=test2)
+    elif request.method == 'POST':
+        # return redirect(url_for('booking', date=date))
+        return redirect('/' + request.form['button_choice_test'])
 
 
-@app.route('/girls')
+@app.route('/girls', methods=['POST', 'GET'])
 def girls():
-    return render_template('girls.html', test=test2)
+    if request.method == 'GET':
+        return render_template('girls.html', test=test2)
+    elif request.method == 'POST':
+        # return redirect(url_for('booking', date=date))
+        return redirect('/' + request.form['button_choice_test'])
 
 
 @app.route('/about')
@@ -228,9 +237,13 @@ def about():
     return render_template('about.html')
 
 
-@app.route('/users')
+@app.route('/users', methods=['POST', 'GET'])
 def users():
-    return render_template('users.html', test=test2)
+    if request.method == 'GET':
+        return render_template('users.html', test=test2)
+    elif request.method == 'POST':
+        # return redirect(url_for('booking', date=date))
+        return redirect('/' + request.form['button_choice_test'])
 
 
 @app.route('/easter')
