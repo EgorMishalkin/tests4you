@@ -8,28 +8,24 @@ begin = 1
 result = 0
 
 
-def main():
-    global test
-    db_session.global_init("db/tests.sqlite")
-    session = db_session.create_session()
-    test = session.query(tests.Test).all()
-    # test = request.form.get(session.query(tests.Test).all(), 'test')
-    app.run()
-
-
 @app.route('/', methods=['POST', 'GET'])
 def start():
+    global test2
+    db_session.global_init("db/tests.sqlite")
+
+    session = db_session.create_session()
+    test2 = session.query(tests.Test).all()
     if request.method == 'GET':
-        return render_template("main_window.html", test=test)
+        return render_template("main_window.html", test=test2)
     elif request.method == 'POST':
-        #return redirect(url_for('booking', date=date))
+        # return redirect(url_for('booking', date=date))
         return redirect('/' + request.form['button_choice_test'])
 
 
 @app.route('/<test_id>', methods=['POST', 'GET'])
 def description_test(test_id):
     if request.method == 'GET':
-        for item in test:
+        for item in test2:
             if str(item.id) == test_id:
                 return render_template('description_test_window.html', item=item)
             else:
@@ -45,7 +41,7 @@ def decision_test(test_id):
     global result
     test1 = ''
     if request.method == 'GET':
-        for item in test:
+        for item in test2:
             if str(item.id) == test_id:
                 test1 = item
                 cycle = item.questions['num_question']
@@ -58,14 +54,14 @@ def decision_test(test_id):
                                )
     elif request.method == 'POST':
         if 'option' in request.form:
-            for item in test:
+            for item in test2:
                 if str(item.id) == test_id:
                     test1 = item
                     result += int(test1.questions['question_' + str(begin)]['answer_' + str(request.form['option'])][1])
                     break
             if begin != int(cycle):
                 begin += 1
-                for item in test:
+                for item in test2:
                     if str(item.id) == test_id:
                         test1 = item
                 return render_template('decision_test_window.html',
@@ -76,7 +72,7 @@ def decision_test(test_id):
                                        ANSWER_4=test1.questions['question_' + str(begin)]['answer_4'][0]
                                        )
             elif begin == int(cycle):
-                for item in test:
+                for item in test2:
                     if str(item.id) == test_id:
                         test1 = item
                 for i in range(1, len(test1.final_grade) + 1):
@@ -88,7 +84,7 @@ def decision_test(test_id):
                     else:
                         pass
         else:
-            for item in test:
+            for item in test2:
                 if str(item.id) == test_id:
                     test1 = item
             return render_template('decision_test_window.html',
@@ -107,30 +103,66 @@ def add_test():
                                SHORT_DESCRIPTION_PARAGRAPH='Введите краткое описание теста',
                                LONG_DESCRIPTION_PARAGRAPH='Введите полное описаниетеста')
     elif request.method == 'POST':
-        print(request.form['name'], request.form['short_description'], request.form['long_description'],
-              request.form['inputState_0'], request.form['category'], request.form['inputState_2'])
         num_ques = request.form.get('inputState_0')
         num_fin = request.form.get('inputState_2')
-        return redirect(url_for('add_test_1', num_ques=num_ques, num_fin=num_fin))
+        name = request.form.get('name')
+        short_description = request.form.get('short_description')
+        long_description = request.form.get('long_description')
+        category = request.form.get('category')
+        return redirect(
+            url_for('add_test_1', num_ques=num_ques, num_fin=num_fin, name=name, short_description=short_description,
+                    long_description=long_description, category=category))
 
 
 @app.route('/add_test_1', methods=['POST', 'GET'])
 def add_test_1():
+    name = request.args.get('name', None)
     num_ques = request.args.get('num_ques', None)
     num_fin = request.args.get('num_fin', None)
+    short_description = request.args.get('short_description', None)
+    long_description = request.args.get('long_description', None)
+    category = request.args.get('category', None)
+    add_data_questions = {}
+    add_data_final = {}
     if request.method == 'GET':
         return render_template('add_test_1_window.html', NUM_QUES=int(num_ques), NUM_FIN=int(num_fin))
     elif request.method == 'POST':
+        # add_data_questions['cover'] = 'static/preview/1.png'
+        # add_data_questions['name'] = str(name)
+        # add_data_questions['short_description'] = str(short_description)
+        # add_data_questions['long_description'] = str(long_description)
+        # add_data_questions['category'] = str(category)
+        # add_data_questions['add'] = 'пользователи'
+        add_data_questions['num_question'] = num_ques
         for i in range(1, int(num_ques) + 1):
-            print(request.form['question_' + str(i)])
-            print(request.form['reply_1_' + str(i)], request.form['inputState_1_' + str(i)])
-            print(request.form['reply_2_' + str(i)], request.form['inputState_2_' + str(i)])
-            print(request.form['reply_3_' + str(i)], request.form['inputState_3_' + str(i)])
-            print(request.form['reply_4_' + str(i)], request.form['inputState_4_' + str(i)])
-        for i in range(1, int(num_fin) + 1):
-            print(request.form['final_' + str(i)], request.form['final_state_' + str(i)])
+            add_data_questions['question_' + str(i)] = {}
+            add_data_questions['question_' + str(i)]['question'] = request.form['question_' + str(i)]
+            add_data_questions['question_' + str(i)]['answer_1'] = [request.form['reply_1_' + str(i)],
+                                                                    int(request.form[
+                                                                            'inputState_1_' + str(i)])]
+            add_data_questions['question_' + str(i)]['answer_2'] = [request.form['reply_2_' + str(i)],
+                                                                    int(request.form[
+                                                                            'inputState_2_' + str(i)])]
+            add_data_questions['question_' + str(i)]['answer_3'] = [request.form['reply_3_' + str(i)],
+                                                                    int(request.form[
+                                                                            'inputState_3_' + str(i)])]
+            add_data_questions['question_' + str(i)]['answer_4'] = [request.form['reply_4_' + str(i)],
+                                                                    int(request.form[
+                                                                            'inputState_4_' + str(i)])]
 
-            
+            # print(request.form['reply_1_' + str(i)], request.form['inputState_1_' + str(i)])
+            # print(request.form['reply_2_' + str(i)], request.form['inputState_2_' + str(i)])
+            # print(request.form['reply_3_' + str(i)], request.form['inputState_3_' + str(i)])
+            # print(request.form['reply_4_' + str(i)], request.form['inputState_4_' + str(i)])
+        # print(add_data_questions)
+        for i in range(1, int(num_fin) + 1):
+            add_data_final[str(i)] = [int(request.form['final_state_' + str(i)]), request.form['final_' + str(i)],
+                                      'static/preview/2.png']
+            # print(request.form['final_' + str(i)], request.form['final_state_' + str(i)])
+        add_test_in_sql(name, short_description, long_description, category, add_data_questions, add_data_final)
+        return redirect('/')
+
+
 @app.route('/search/<result>', methods=['POST', 'GET'])
 def search(result):
     global test
@@ -150,7 +182,27 @@ def search(result):
     elif request.method == 'POST':
         return redirect('/' + request.form['button_choice_test'])
 
-    
+
+def add_test_in_sql(name, short_description, long_description, category, add_data_questions, add_data_final):
+    db_session.global_init("db/tests.sqlite")
+    print('Добавление теста в базу данных...')
+    test = tests.Test()
+    test.cover = 'static/preview/1.png'
+    test.name = name
+    test.short_description = short_description
+    test.long_description = long_description
+    test.category = category
+    test.add = 'пользователи'
+    test.questions = add_data_questions
+    test.final_grade = add_data_final
+
+    session = db_session.create_session()
+    session.add(test)
+    session.commit()
+
+    print('Тест успешно добавлен')
+
+
 @app.route('/boys')
 def boys():
     return render_template('boys.html')
@@ -172,4 +224,4 @@ def easter():
 
 
 if __name__ == '__main__':
-    main()
+    app.run()
