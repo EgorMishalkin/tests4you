@@ -57,7 +57,7 @@
 <div class="container">
     <div class="row">
         {% for item in test %}
-        {% if "для мальчиков" in item["category"].split(",") %}
+        {% if item["add"] == "пользователи" %}
         <div class="card col-md-4" style="width: 18rem;">
             <img class="card-img-top" src={{item["cover"]}} alt="Card image cap">
             <div class="card-body">

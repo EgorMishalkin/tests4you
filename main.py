@@ -16,6 +16,9 @@ def start():
     session = db_session.create_session()
     test2 = session.query(tests.Test).all()
     if request.method == 'GET':
+        for name in session.query(tests.Test).filter(tests.Test.id == 1):
+            print(name)
+        #session.commit()
         return render_template("main_window.html", test=test2)
     elif request.method == 'POST':
         # return redirect(url_for('booking', date=date))
@@ -212,17 +215,22 @@ def add_test_in_sql(name, short_description, long_description, category, add_dat
 
 @app.route('/boys')
 def boys():
-    return render_template('boys.html')
+    return render_template('boys.html', test=test2)
 
 
 @app.route('/girls')
 def girls():
-    return render_template('girls.html')
+    return render_template('girls.html', test=test2)
 
 
 @app.route('/about')
 def about():
     return render_template('about.html')
+
+
+@app.route('/users')
+def users():
+    return render_template('users.html', test=test2)
 
 
 @app.route('/easter')
