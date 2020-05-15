@@ -130,8 +130,27 @@ def add_test_1():
         for i in range(1, int(num_fin) + 1):
             print(request.form['final_' + str(i)], request.form['final_state_' + str(i)])
 
+            
+@app.route('/search/<result>', methods=['POST', 'GET'])
+def search(result):
+    global test
+    print(test)
+    results = []
+    times = 0
+    for i in result.split():
+        for n in test:
+            if i.lower() in n.name.lower():
+                results.append(n.name)
+                times += 1
+    # results = search_bd(result)
+    if request.method == 'GET':
+        return render_template("search.html", SEARCH=result, VALUE=str(times), test=test)
+        # return str(times)
+        # return '</br>'.join(results)
+    elif request.method == 'POST':
+        return redirect('/' + request.form['button_choice_test'])
 
-
+    
 @app.route('/boys')
 def boys():
     return render_template('boys.html')
