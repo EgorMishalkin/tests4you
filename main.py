@@ -77,10 +77,10 @@ def decision_test(test_id):
                         test1 = item
                 for i in range(1, len(test1.final_grade) + 1):
                     begin = 1
-                    result = 0
                     if result <= test1.final_grade[str(i)][0]:
-                        return render_template('final_grade_test_window.html', CONCLUSION=test1.final_grade[str(i)][1],
-                                               PATH=test1.final_grade[str(i)][2])
+                        CONCLUSION = test1.final_grade[str(i)][1]
+                        PATH = test1.final_grade[str(i)][2]
+                        return redirect(url_for('final_result', CONCLUSION=CONCLUSION, PATH=PATH))
                     else:
                         pass
         else:
@@ -94,6 +94,13 @@ def decision_test(test_id):
                                    ANSWER_3=test1.questions['question_' + str(begin)]['answer_3'][0],
                                    ANSWER_4=test1.questions['question_' + str(begin)]['answer_4'][0]
                                    )
+
+
+@app.route('/final_result')
+def final_result():
+    CONCLUSION = request.args.get('CONCLUSION', None)
+    PATH = request.args.get('PATH', None)
+    return render_template('final_grade_test_window.html', CONCLUSION=CONCLUSION, PATH=PATH)
 
 
 @app.route('/add_test', methods=['POST', 'GET'])
