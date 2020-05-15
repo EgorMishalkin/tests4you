@@ -10,19 +10,20 @@ result = 0
 
 @app.route('/', methods=['POST', 'GET'])
 def start():
-    global test2
-    db_session.global_init("db/tests.sqlite")
+    return "Hello world"
+#     global test2
+#     db_session.global_init("db/tests.sqlite")
 
-    session = db_session.create_session()
-    test2 = session.query(tests.Test).all()
-    if request.method == 'GET':
-        for name in session.query(tests.Test).filter(tests.Test.id == 1):
-            print(name)
-        #session.commit()
-        return render_template("main_window.html", test=test2)
-    elif request.method == 'POST':
-        # return redirect(url_for('booking', date=date))
-        return redirect('/' + request.form['button_choice_test'])
+#     session = db_session.create_session()
+#     test2 = session.query(tests.Test).all()
+#     if request.method == 'GET':
+#         for name in session.query(tests.Test).filter(tests.Test.id == 1):
+#             print(name)
+#         #session.commit()
+#         return render_template("main_window.html", test=test2)
+#     elif request.method == 'POST':
+#         # return redirect(url_for('booking', date=date))
+#         return redirect('/' + request.form['button_choice_test'])
 
 
 @app.route('/<test_id>', methods=['POST', 'GET'])
@@ -232,4 +233,4 @@ def easter():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=True)
