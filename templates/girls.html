@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Tests4u</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='icon.ico') }}">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar fixed-top">
+    <div class="btn-group col-sm-0 col-xs-0 col-lg-0">
+        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+            <svg class="bi bi-list-task" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+                 xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                      d="M2 2.5a.5.5 0 00-.5.5v1a.5.5 0 00.5.5h1a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5H2zM3 3H2v1h1V3z"
+                      clip-rule="evenodd"/>
+                <path d="M5 3.5a.5.5 0 01.5-.5h9a.5.5 0 010 1h-9a.5.5 0 01-.5-.5zM5.5 7a.5.5 0 000 1h9a.5.5 0 000-1h-9zm0 4a.5.5 0 000 1h9a.5.5 0 000-1h-9z"/>
+                <path fill-rule="evenodd"
+                      d="M1.5 7a.5.5 0 01.5-.5h1a.5.5 0 01.5.5v1a.5.5 0 01-.5.5H2a.5.5 0 01-.5-.5V7zM2 7h1v1H2V7zm0 3.5a.5.5 0 00-.5.5v1a.5.5 0 00.5.5h1a.5.5 0 00.5-.5v-1a.5.5 0 00-.5-.5H2zm1 .5H2v1h1v-1z"
+                      clip-rule="evenodd"/>
+            </svg>
+        </button>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="boys">Для мальчиков</a>
+            <a class="dropdown-item" href="girls">Для девочек</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/add_test">добавить тест</a>
+            <a class="dropdown-item" href="https://vk.com/im?sel=-194671676">Тех поддержка</a>
+        </div>
+    </div>
+    <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="about">О проекте<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="https://vk.com/tests4u">Группа Вконтакте<span class="sr-only">(current)</span></a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="jumbotron">
+    <div class="container">
+        <h1>Tests4u</h1>
+        <p>
+            Каждый из нас много раз задумывался "Хто я".
+            Этот сайт поможет вам скрасит скучный вечер или наконец постичь смысл жизни
+        </p>
+        <form action="/about">
+            <input type="submit" class="btn btn-outline-dark my-2 my-sm-0" value="Узнать больше &raquo;" />
+        </form>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        {% for item in test %}
+        {% if "для девочек" in item["category"].split(",") %}
+        <div class="card col-md-4" style="width: 18rem;">
+            <img class="card-img-top" src={{item["cover"]}} alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">{{item["name"]}}</h5>
+                <p class="card-text">{{item["short_description"]}}</p>
+                <form method="post">
+                    <button class="btn btn-outline-dark my-2 my-sm-0" name="button_choice_test"
+                            value="{{item['id']}}" type="submit">Поподробнее &raquo;
+                    </button>
+                </form>
+            </div>
+        </div>
+        {% else %}
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+<hr>
+<footer>
+    <p>&copy; Все права защищены 2020</p>
+</footer>
+
+</body>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+</html>

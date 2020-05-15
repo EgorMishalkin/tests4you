@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Описание</title>
+    <link rel="shortcut icon" href="{{  url_for('static', filename='icon.ico')  }}">
+    <style>
+    .button {
+        position: absolute;
+    }
+    .buttton {
+      background-color: #42aaff;
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+    p {
+    font-size: 14pt;
+    }
+    </style>
+</head>
+<body>
+<div class="">
+    <div class="card col-md-4" style="width: 18rem;">
+        <img class="card-img-top" src={{item["cover"]}} alt="Card image cap">
+        <div class="card-body">
+            <h2 class="card-title">{{item["name"]}}</h2>
+            <p class="card-text">{{item["long_description"]}}</p>
+            <form method="post">
+                <button class="buttton">Поехали &raquo;</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
