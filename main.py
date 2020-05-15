@@ -174,26 +174,6 @@ def add_test_1():
         return redirect('/')
 
 
-@app.route('/search/<result>', methods=['POST', 'GET'])
-def search(result):
-    global test
-    print(test)
-    results = []
-    times = 0
-    for i in result.split():
-        for n in test:
-            if i.lower() in n.name.lower():
-                results.append(n.name)
-                times += 1
-    # results = search_bd(result)
-    if request.method == 'GET':
-        return render_template("search.html", SEARCH=result, VALUE=str(times), test=test)
-        # return str(times)
-        # return '</br>'.join(results)
-    elif request.method == 'POST':
-        return redirect('/' + request.form['button_choice_test'])
-
-
 def add_test_in_sql(name, short_description, long_description, category, add_data_questions, add_data_final):
     db_session.global_init("db/tests.sqlite")
     print('Добавление теста в базу данных...')
