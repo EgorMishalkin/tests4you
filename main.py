@@ -6,6 +6,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'test4u_secret_key'
 begin = 1
 result = 0
+cycle = 0
 
 
 @app.route('/', methods=['POST', 'GET'])
