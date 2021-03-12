@@ -4,7 +4,4 @@ link - https://tests4you.herokuapp.com/
 
 screencast - https://www.youtube.com/watch?v=yiw6_RlByOI
 
-creators:
-Alexander Plyut
-Egor Mishalkin
-Artom Starodubov
+creators: Alexander Plyut, Egor Mishalkin, Artom Starodubov
